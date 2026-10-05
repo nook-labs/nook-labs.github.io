@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="description"
+      content="루틴톡(RoutineTalk) 고객지원 센터입니다. 이용 문의, 결제 및 구독, 데이터 동기화, 계정 설정 등 자주 묻는 질문을 확인하고 1:1 지원을 받아보세요."
+    />
+    <meta name="theme-color" content="#FBFBFB" />
+    <link rel="icon" href="app_icon.png" type="image/png" />
+    <title>고객지원 | 루틴톡 (RoutineTalk)</title>
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <style>
+      :root {
+        --bg-main: #FBFBFB;
+        --bg-surface: #FFFFFF;
+        --bg-subtle: #F5F5F7;
+        --text-primary: #2C2C2E;
+        --text-secondary: #777777;
+        --text-muted: #999999;
+        --border-color: #F0F0F0;
+        --border-strong: #E5E5EA;
+        --accent-black: #101010;
+        --accent-hover: #262626;
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+        --shadow-device: 0 24px 60px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 24px;
+        --radius-full: 9999px;
+        --font: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        font-family: var(--font);
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        line-height: 1.65;
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ── 헤더 & 네비게이션 ── */
+      .nav-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(251, 251, 251, 0.88);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .nav-container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 16px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 19px;
+        letter-spacing: -0.5px;
+        color: var(--accent-black);
+      }
+
+      .brand-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        object-fit: cover;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        font-size: 14.5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+      }
+
+      .nav-links a {
+        transition: color 0.15s ease;
+      }
+
+      
+      .nav-links a.active {
+        color: var(--accent-black);
+        font-weight: 700;
+        position: relative;
+      }
+      .nav-links a.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent-black);
+        border-radius: 2px;
+      }
+    
+      .nav-links a:hover {
+        color: var(--accent-black);
+      }
+
+      .nav-btn {
+        padding: 9px 20px;
+        background: var(--accent-black);
+        border: 1px solid var(--accent-black);
+        border-radius: var(--radius-full);
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #ffffff;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(16, 16, 16, 0.12);
+      }
+
+      .nav-btn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 16, 16, 0.2);
+      }
+
+      /* ── 메인 컨테이너 ── */
+      .main-container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 64px 28px 100px 28px;
+        flex: 1;
+        width: 100%;
+      }
+
+      /* 페이지 헤딩 */
+      .page-header {
+        text-align: center;
+        margin-bottom: 44px;
+      }
+
+      .page-tag {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .page-title {
+        font-size: 36px;
+        font-weight: 800;
+        letter-spacing: -1.2px;
+        color: var(--accent-black);
+        margin-bottom: 12px;
+      }
+
+      .page-subtitle {
+        font-size: 16px;
+        color: var(--text-secondary);
+        word-break: keep-all;
+      }
+
+      /* 검색 바 */
+      .search-box-wrap {
+        position: relative;
+        max-width: 640px;
+        margin: 0 auto 36px auto;
+      }
+
+      .search-input {
+        width: 100%;
+        height: 54px;
+        padding: 0 20px 0 52px;
+        background: #FFFFFF;
+        border: 1.5px solid var(--border-strong);
+        border-radius: 27px;
+        font-size: 15.5px;
+        font-family: inherit;
+        color: var(--text-primary);
+        box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.04);
+        outline: none;
+        transition: all 0.2s ease;
+      }
+
+      .search-input:focus {
+        border-color: var(--accent-black);
+        box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.08);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        color: var(--text-muted);
+        pointer-events: none;
+      }
+
+      .clear-search-btn {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #EEEEF0;
+        border: none;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      /* 카테고리 필터 칩 */
+      .category-chips {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 40px;
+      }
+
+      .chip-btn {
+        padding: 8px 18px;
+        background: #FFFFFF;
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .chip-btn:hover {
+        border-color: var(--border-strong);
+        color: var(--text-primary);
+      }
+
+      .chip-btn.active {
+        background: var(--accent-black);
+        border-color: var(--accent-black);
+        color: #FFFFFF;
+      }
+
+      /* 1:1 문의 배너 */
+      .contact-banner {
+        background: #FFFFFF;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 30px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 48px;
+      }
+
+      .contact-text h3 {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--accent-black);
+        margin-bottom: 4px;
+        letter-spacing: -0.4px;
+      }
+
+      .contact-text p {
+        font-size: 13.5px;
+        color: var(--text-secondary);
+      }
+
+      .contact-action-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .contact-email-box {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: var(--bg-subtle);
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+      }
+
+      .copy-btn, .mail-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .copy-btn {
+        background: #FFFFFF;
+        border: 1px solid var(--border-strong);
+        color: var(--text-primary);
+      }
+
+      .copy-btn:hover {
+        background: #F8F8FA;
+      }
+
+      .mail-btn {
+        background: var(--accent-black);
+        border: 1px solid var(--accent-black);
+        color: #FFFFFF;
+      }
+
+      .mail-btn:hover {
+        background: var(--accent-hover);
+      }
+
+      /* FAQ 아코디언 리스트 */
+      .faq-section-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--accent-black);
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .faq-count {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-secondary);
+      }
+
+      .accordion-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .accordion-item {
+        background: #FFFFFF;
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .accordion-item:hover {
+        border-color: var(--border-strong);
+      }
+
+      .accordion-item.active {
+        border-color: var(--border-strong);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      }
+
+      .accordion-header {
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .accordion-title-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        padding-right: 16px;
+      }
+
+      .accordion-badge {
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #F0F0F3;
+        color: var(--text-secondary);
+        white-space: nowrap;
+      }
+
+      .accordion-badge.payment { background: #E8F1FC; color: #2B6CB0; }
+      .accordion-badge.sync { background: #E6F7ED; color: #276749; }
+      .accordion-badge.routine { background: #FEF3C7; color: #92400E; }
+      .accordion-badge.account { background: #F3E8FF; color: #6B21A8; }
+
+      .accordion-title {
+        font-size: 15.5px;
+        font-weight: 700;
+        color: var(--accent-black);
+        letter-spacing: -0.3px;
+      }
+
+      .accordion-icon {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        flex-shrink: 0;
+        transition: transform 0.25s ease;
+      }
+
+      .accordion-icon::before,
+      .accordion-icon::after {
+        content: "";
+        position: absolute;
+        background-color: var(--text-secondary);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 2px;
+      }
+
+      .accordion-icon::before {
+        width: 14px;
+        height: 1.8px;
+      }
+
+      .accordion-icon::after {
+        width: 1.8px;
+        height: 14px;
+        transition: transform 0.25s ease;
+      }
+
+      .accordion-item.active .accordion-icon {
+        transform: rotate(180deg);
+      }
+
+      .accordion-item.active .accordion-icon::after {
+        transform: translate(-50%, -50%) rotate(90deg);
+        opacity: 0;
+      }
+
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .accordion-inner {
+        padding: 0 24px 22px 24px;
+        font-size: 14.5px;
+        color: var(--text-secondary);
+        line-height: 1.75;
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+        padding-top: 16px;
+      }
+
+      .accordion-inner b {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      /* 빈 검색 결과 */
+      .empty-search-state {
+        text-align: center;
+        padding: 60px 20px;
+        display: none;
+      }
+
+      .empty-search-icon {
+        font-size: 40px;
+        margin-bottom: 12px;
+      }
+
+      .empty-search-text {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+      }
+
+      .empty-search-sub {
+        font-size: 13.5px;
+        color: var(--text-secondary);
+      }
+
+      /* ── 토스트 알림 ── */
+      .toast {
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--accent-black);
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: var(--radius-full);
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.25s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ── 푸터 ── */
+      .footer-wrap {
+        border-top: 1px solid var(--border-color);
+        background: #F4F4F6;
+        padding: 56px 28px 64px 28px;
+        margin-top: auto;
+      }
+
+      .footer-container {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 32px;
+      }
+
+      .footer-left {
+        max-width: 720px;
+      }
+
+      .footer-brand-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--accent-black);
+        letter-spacing: -0.4px;
+        margin-bottom: 12px;
+      }
+
+      .footer-biz-info {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        line-height: 1.85;
+        letter-spacing: -0.2px;
+        margin-bottom: 14px;
+        word-break: keep-all;
+      }
+
+      .footer-biz-info .sep {
+        margin: 0 8px;
+        color: #D4D4D8;
+        font-weight: 400;
+      }
+
+      .footer-biz-info a {
+        color: var(--text-primary);
+        font-weight: 500;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .footer-copyright {
+        font-size: 12px;
+        color: #A1A1AA;
+        letter-spacing: -0.2px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        padding-top: 2px;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-black);
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .page-title { font-size: 28px; }
+        .contact-banner { flex-direction: column; align-items: stretch; text-align: center; }
+        .contact-action-wrap { flex-direction: column; align-items: stretch; }
+        .accordion-header { padding: 18px 20px; }
+        .accordion-title-group { flex-direction: column; align-items: flex-start; gap: 6px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 상단 네비게이션 -->
+    <nav class="nav-wrap">
+      <div class="nav-container">
+        <a href="index.html" class="brand">
+          <img src="app_icon.png" alt="루틴톡 로고" class="brand-icon" />
+          <span>루틴톡</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">소개</a>
+          <a href="notice.html">공지사항</a>
+          <a href="support.html" class='active'>고객지원</a>
+        </div>
+        <a href="https://play.google.com/store/apps/details?id=com.nooklabs.routinetalk" target="_blank" rel="noopener noreferrer" class="nav-btn">앱 다운로드</a>
+      </div>
+    </nav>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="main-container">
+      <header class="page-header">
+        <span class="page-tag">Help Center & Support</span>
+        <h1 class="page-title">무엇을 도와드릴까요?</h1>
+        <p class="page-subtitle">루틴톡 이용 중 궁금한 점이나 문제 해결 방법을 빠르게 찾아보세요.</p>
+      </header>
+
+      <!-- 실시간 검색 바 -->
+      <div class="search-box-wrap">
+        <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="궁금한 질문이나 키워드를 검색해보세요 (예: 복원, 결제, 동기화, 탈퇴)"
+          autocomplete="off"
+        />
+        <button id="clearSearchBtn" class="clear-search-btn" title="검색어 지우기">✕</button>
+      </div>
+
+      <!-- 카테고리 필터 칩 -->
+      <div class="category-chips">
+        <button class="chip-btn active" data-category="all">전체</button>
+        <button class="chip-btn" data-category="payment">결제/구독</button>
+        <button class="chip-btn" data-category="sync">데이터/동기화</button>
+        <button class="chip-btn" data-category="routine">루틴 이용</button>
+        <button class="chip-btn" data-category="account">계정/보안</button>
+      </div>
+
+      <!-- 1:1 문의 배너 -->
+      <div class="contact-banner">
+        <div class="contact-text">
+          <h3>원하시는 답변을 찾지 못하셨나요?</h3>
+          <p>오류 제보, 기능 건의, 환불 및 결제 관련 문의를 메일로 보내주시면 신속히 답변해 드립니다.</p>
+        </div>
+        <div class="contact-action-wrap">
+          <span class="contact-email-box" id="emailText">nooklabs.official@gmail.com</span>
+          <button class="copy-btn" onclick="copyEmail()">이메일 복사</button>
+          <a href="mailto:nooklabs.official@gmail.com?subject=[루틴톡 문의]" class="mail-btn">메일 보내기</a>
+        </div>
+      </div>
+
+      <!-- FAQ 목록 -->
+      <div class="faq-section-title">
+        <span>자주 묻는 질문</span>
+        <span class="faq-count" id="faqCount">총 8개</span>
+      </div>
+
+      <div class="accordion-list" id="faqList">
+        <!-- 1. 결제 복원 -->
+        <div class="accordion-item" data-category="payment">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge payment">결제/구독</span>
+              <span class="accordion-title">기기를 변경했을 때 구매 내역 복원은 어떻게 하나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              루틴톡 앱 내 <b>[내 정보] > [루틴톡 Plus 멤버십]</b> 화면 우측 상단의 <b>[구매 복원]</b> 버튼을 누르시면, 현재 스토어 계정의 결제 및 구독 내역을 즉시 안전하게 복원하실 수 있습니다. 이전 구매 시 사용하셨던 동일한 Google Play 또는 Apple 계정으로 로그인되어 있어야 정상 복원됩니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 클라우드 동기화 -->
+        <div class="accordion-item" data-category="sync">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge sync">데이터/동기화</span>
+              <span class="accordion-title">기기를 바꾸거나 앱을 재설치해도 데이터가 유지되나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              네, 로그인(Google, Apple 또는 이메일 계정) 후 이용 중이시라면 루틴 목록, 일일 완료 기록, 톡 타임라인 메시지가 <b>클라우드 서버(Supabase)에 실시간으로 안전하게 자동 암호화 동기화</b>됩니다. 새 기기에서 동일한 계정으로 로그인하시면 즉시 기존 데이터를 불러옵니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 오프라인 사용 -->
+        <div class="accordion-item" data-category="routine">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge routine">루틴 이용</span>
+              <span class="accordion-title">인터넷이나 비행기 탑승 중 오프라인에서도 사용할 수 있나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              네! 루틴톡은 로컬 디바이스 우선(Local-First) 아키텍처로 설계되어 인터넷 연결이 없는 상태에서도 <b>루틴 체크, 대화형 메모 작성, 통계 확인이 100% 정상 작동</b>합니다. 네트워크가 다시 연결되면 로컬에 작성된 내용이 클라우드로 자동 동기화됩니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 구독 해지 및 환불 -->
+        <div class="accordion-item" data-category="payment">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge payment">결제/구독</span>
+              <span class="accordion-title">Plus 멤버십 정기 구독 해지 및 환불 신청은 어떻게 하나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              스토어(Google Play / Apple App Store)의 <b>[계정] > [결제 및 정기 결제/구독]</b> 메뉴에서 언제든지 다음 결제일 전에 루틴톡 Plus 구독을 취소하실 수 있습니다. 취소하더라도 남은 이용 기간까지는 Plus 혜택이 정상 유지됩니다. 결제 환불 요청은 각 스토어 정책에 따라 스토어 고객센터를 통해 신청하실 수 있습니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. 세트 루틴과 측정형 루틴 차이 -->
+        <div class="accordion-item" data-category="routine">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge routine">루틴 이용</span>
+              <span class="accordion-title">세트 루틴과 수치 루틴(체중, 독서 등)은 어떻게 활용하나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              단순 O/X 체크 외에 <b>'물 한 잔 + 스트레칭 + 비타민'</b>처럼 묶어서 하는 행동은 <b>[세트 루틴]</b>으로 묶어 실천률을 한눈에 볼 수 있습니다. 또한 <b>공복 체중(kg), 러닝(km), 독서(쪽)</b> 등 수치 목표가 있는 루틴은 <b>[수치 목표]</b>를 설정하시면 매일의 변화량과 주간/월간 꺾은선 트렌드 차트를 자동으로 생성해 드립니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. 계정 탈퇴 및 데이터 삭제 -->
+        <div class="accordion-item" data-category="account">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge account">계정/보안</span>
+              <span class="accordion-title">회원 탈퇴 시 개인정보와 기록은 어떻게 처리되나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              앱 내 <b>[내 정보] > [계정 설정] > [회원 탈퇴]</b>를 통해 언제든지 계정을 영구 삭제하실 수 있습니다. 탈퇴 즉시 클라우드에 보관된 사용자의 모든 루틴, 대화 내역, 사진, 통계 데이터는 법적 보관 의무 대상을 제외하고 복구 불가능하도록 영구 파기됩니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. 알림이 안 와요 -->
+        <div class="accordion-item" data-category="routine">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge routine">루틴 이용</span>
+              <span class="accordion-title">루틴 시작 알림이 울리지 않아요. 어떻게 설정해야 하나요?</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              스마트폰 기기 설정의 <b>[배터리 최적화]</b> 또는 <b>[절전 모드]</b>로 인해 백그라운드 알림이 차단될 수 있습니다. 휴대폰 설정의 <b>[애플리케이션] > [루틴톡] > [배터리]</b> 메뉴에서 <b>'제한 없음'</b>으로 허용해 주시고, <b>[알림]</b> 메뉴에서 모든 알림 권한이 켜져 있는지 확인해 주세요.
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. 비밀번호를 잊어버렸어요 -->
+        <div class="accordion-item" data-category="account">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title-group">
+              <span class="accordion-badge account">계정/보안</span>
+              <span class="accordion-title">이메일 계정 로그인 비밀번호를 분실했어요.</span>
+            </div>
+            <span class="accordion-icon"></span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              로그인 화면의 <b>[비밀번호 재설정]</b> 링크를 누르고 가입하신 이메일 주소를 입력하시면, 임시 인증 링크가 담긴 재설정 메일이 즉시 발송됩니다. 메일함의 링크를 클릭하여 새로운 비밀번호를 설정하신 후 로그인해 주세요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 검색 결과 없음 상태 -->
+      <div id="emptySearch" class="empty-search-state">
+        <div class="empty-search-icon">🔍</div>
+        <div class="empty-search-text">일치하는 검색 결과가 없습니다.</div>
+        <div class="empty-search-sub">다른 검색어를 입력하시거나 상단의 1:1 메일 문의를 이용해 주세요.</div>
+      </div>
+    </main>
+
+    <!-- 복사 완료 토스트 -->
+    <div id="toast" class="toast">이메일 주소가 클립보드에 복사되었습니다.</div>
+
+    <!-- 하단 푸터 (사업자 정보 포함) -->
+    <footer class="footer-wrap">
+      <div class="footer-container">
+        <div class="footer-left">
+          <div class="footer-brand-title">누크랩스 (Nook Labs) · 루틴톡</div>
+          <div class="footer-biz-info">
+            <span>상호명: 누크랩스(Nook Labs)</span>
+            <span class="sep">|</span>
+            <span>대표자: 이상준</span>
+            <span class="sep">|</span>
+            <span>사업자등록번호: 638-10-03306</span>
+            <br />
+            <span>통신판매업신고번호: 제 2026-경기의왕-0391 호</span>
+            <span class="sep">|</span>
+            <span>사업장 소재지: 경기도 의왕시 오전천로 54, 105동 2001호(오전동, 민들레베스파트)</span>
+            <br />
+            <span>고객지원 및 제휴 문의: <a href="mailto:nooklabs.official@gmail.com">nooklabs.official@gmail.com</a></span>
+          </div>
+          <div class="footer-copyright">
+            © 2026 Nook Labs. All rights reserved.
+          </div>
+        </div>
+        <div class="footer-links">
+          <a href="support.html">고객지원</a>
+          <a href="terms.html">이용약관</a>
+          <a href="privacy.html">개인정보처리방침</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      let currentCategory = "all";
+      let currentSearchQuery = "";
+
+      // 아코디언 토글
+      function toggleAccordion(header) {
+        const item = header.parentElement;
+        const content = item.querySelector(".accordion-content");
+        const isActive = item.classList.contains("active");
+
+        if (isActive) {
+          item.classList.remove("active");
+          content.style.maxHeight = null;
+        } else {
+          item.classList.add("active");
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      }
+
+      // 이메일 복사
+      function copyEmail() {
+        const email = document.getElementById("emailText").innerText;
+        navigator.clipboard.writeText(email).then(() => {
+          const toast = document.getElementById("toast");
+          toast.classList.add("show");
+          setTimeout(() => {
+            toast.classList.remove("show");
+          }, 2000);
+        });
+      }
+
+      // 검색 & 카테고리 필터링
+      function filterFaq() {
+        const items = document.querySelectorAll(".accordion-item");
+        const emptyState = document.getElementById("emptySearch");
+        let visibleCount = 0;
+
+        items.forEach((item) => {
+          const category = item.getAttribute("data-category");
+          const title = item.querySelector(".accordion-title").innerText.toLowerCase();
+          const content = item.querySelector(".accordion-inner").innerText.toLowerCase();
+
+          const matchesCategory = currentCategory === "all" || category === currentCategory;
+          const matchesSearch = !currentSearchQuery || title.includes(currentSearchQuery) || content.includes(currentSearchQuery);
+
+          if (matchesCategory && matchesSearch) {
+            item.style.display = "block";
+            visibleCount++;
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        document.getElementById("faqCount").innerText = `총 ${visibleCount}개`;
+
+        if (visibleCount === 0) {
+          emptyState.style.display = "block";
+        } else {
+          emptyState.style.display = "none";
+        }
+      }
+
+      // 검색 입력 이벤트
+      const searchInput = document.getElementById("searchInput");
+      const clearBtn = document.getElementById("clearSearchBtn");
+
+      searchInput.addEventListener("input", (e) => {
+        currentSearchQuery = e.target.value.trim().toLowerCase();
+        clearBtn.style.display = currentSearchQuery ? "flex" : "none";
+        filterFaq();
+      });
+
+      clearBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        currentSearchQuery = "";
+        clearBtn.style.display = "none";
+        filterFaq();
+        searchInput.focus();
+      });
+
+      // 카테고리 칩 클릭 이벤트
+      const chipBtns = document.querySelectorAll(".chip-btn");
+      chipBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          chipBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentCategory = btn.getAttribute("data-category");
+          filterFaq();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>루틴톡 (RoutineTalk) - 공지사항</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23111111'><path d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0-2-.9-2-2V4c0-1.1-.9-2-2-2z'/></svg>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <style>
+    :root {
+        --bg-main: #FBFBFB;
+        --bg-surface: #FFFFFF;
+        --bg-subtle: #F5F5F7;
+        --text-primary: #2C2C2E;
+        --text-secondary: #777777;
+        --text-muted: #999999;
+        --border-color: #F0F0F0;
+        --border-strong: #E5E5EA;
+        --accent-black: #101010;
+        --accent-hover: #262626;
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+        --shadow-device: 0 24px 60px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.03);
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 24px;
+        --radius-full: 9999px;
+        --font: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        line-height: 1.65;
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Global Nav (100% Unified with index.html) */
+    .nav-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(251, 251, 251, 0.88);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .nav-container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 16px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 19px;
+        letter-spacing: -0.5px;
+        color: var(--accent-black);
+      }
+
+      .brand-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        object-fit: cover;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        font-size: 14.5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+      }
+
+      .nav-links a {
+        transition: color 0.15s ease;
+      }
+
+      
+      .nav-links a.active {
+        color: var(--accent-black);
+        font-weight: 700;
+        position: relative;
+      }
+      .nav-links a.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent-black);
+        border-radius: 2px;
+      }
+    
+      .nav-links a:hover {
+        color: var(--accent-black);
+      }
+
+      .nav-btn {
+        padding: 9px 20px;
+        background: var(--accent-black);
+        border: 1px solid var(--accent-black);
+        border-radius: var(--radius-full);
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #ffffff;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(16, 16, 16, 0.12);
+      }
+
+      .nav-btn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 16, 16, 0.2);
+      }
+
+    /* Main Container (Unified with support.html) */
+    .main-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 24px 80px 24px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .page-tag {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--accent-black);
+      margin-bottom: 12px;
+    }
+
+    .page-sub {
+      font-size: 15.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Category Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .chip-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--accent-black);
+    }
+
+    .chip-btn.active {
+      background: var(--accent-black);
+      border-color: var(--accent-black);
+      color: #FFFFFF;
+    }
+
+    /* Board Card Container */
+    .board-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    /* Notice List */
+    .notice-list {
+      list-style: none;
+    }
+
+    .notice-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .notice-item:last-child {
+      border-bottom: none;
+    }
+
+    .notice-item:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .notice-item-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .badge-update {
+      background-color: #E6F7ED;
+      color: #276749;
+    }
+
+    .badge-notice {
+      background-color: #E8F1FC;
+      color: #2B6CB0;
+    }
+
+    .notice-item-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--accent-black);
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .notice-item:hover .notice-item-title {
+      color: var(--accent-blue);
+    }
+
+    .notice-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 500;
+      flex-shrink: 0;
+      margin-left: 20px;
+    }
+
+    .notice-item-meta svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+    }
+
+    /* Detail View */
+    .detail-view {
+      display: none;
+    }
+
+    .detail-view.active {
+      display: block;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 6px 0;
+      margin-bottom: 24px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-back:hover {
+      color: var(--accent-black);
+    }
+
+    .btn-back svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .detail-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-soft);
+      padding: 44px 48px;
+    }
+
+    .detail-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .detail-header-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .detail-title {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.4;
+      letter-spacing: -0.6px;
+      color: var(--accent-black);
+      margin-bottom: 12px;
+    }
+
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+
+    .detail-body {
+        line-height: 1.65;
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+    .detail-body p {
+      margin-bottom: 16px;
+    }
+
+    .detail-body h3 {
+      font-size: 17.5px;
+      font-weight: 800;
+      color: var(--accent-black);
+      margin: 28px 0 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .detail-body ul {
+      margin: 0 0 20px 20px;
+    }
+
+    .detail-body li {
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .detail-callout {
+      background: var(--bg-subtle);
+      border-left: 3.5px solid var(--accent-blue);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 24px 0;
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .detail-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 24px;
+      margin-top: 36px;
+    }
+
+    .btn-list-bottom {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 9px 20px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-list-bottom:hover {
+      background: #EBEBED;
+    }
+
+    /* Footer (100% Unified with index.html) */
+    .footer-wrap {
+      border-top: 1px solid var(--border-color);
+      background: #F4F4F6;
+      padding: 56px 28px 64px 28px;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .footer-left {
+      max-width: 720px;
+    }
+
+    .footer-brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent-black);
+      letter-spacing: -0.4px;
+      margin-bottom: 12px;
+    }
+
+    .footer-biz-info {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      letter-spacing: -0.2px;
+      margin-bottom: 14px;
+      word-break: keep-all;
+    }
+
+    .footer-biz-info .sep {
+      margin: 0 8px;
+      color: #D4D4D8;
+      font-weight: 400;
+    }
+
+    .footer-biz-info a {
+      color: var(--text-primary);
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer-copyright {
+      font-size: 12px;
+      color: #A1A1AA;
+      letter-spacing: -0.2px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      padding-top: 2px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-black);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .page-title { font-size: 28px; }
+      .notice-item { padding: 18px 20px; }
+      .notice-item-meta { font-size: 13px; margin-left: 12px; }
+      .detail-card { padding: 28px 20px; }
+      .detail-title { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar (100% Unified) -->
+  <nav class="nav-wrap">
+      <div class="nav-container">
+        <a href="index.html" class="brand">
+          <img src="app_icon.png" alt="루틴톡 로고" class="brand-icon" />
+          <span>루틴톡</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">소개</a>
+          <a href="notice.html" class='active'>공지사항</a>
+          <a href="support.html">고객지원</a>
+        </div>
+        <a href="https://play.google.com/store/apps/details?id=com.nooklabs.routinetalk" target="_blank" rel="noopener noreferrer" class="nav-btn">앱 다운로드</a>
+      </div>
+    </nav>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <!-- LIST VIEW -->
+    <div id="listView">
+      <div class="page-header">
+        <span class="page-tag">NOTICE & NEWS</span>
+        <h1 class="page-title">공지사항</h1>
+        <p class="page-sub">루틴톡의 주요 릴리즈 내역과 버전별 업데이트 소식을 확인해 보세요.</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="chip-btn active" data-cat="all">전체</button>
+        <button class="chip-btn" data-cat="update">업데이트</button>
+        <button class="chip-btn" data-cat="notice">공지</button>
+      </div>
+
+      <!-- Board List Container -->
+      <div class="board-card">
+        <ul class="notice-list" id="noticeItems">
+          <!-- Items will be injected via JS -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- DETAIL VIEW -->
+    <div id="detailView" class="detail-view">
+      <button class="btn-back" id="btnBack">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        공지 목록으로 돌아가기
+      </button>
+
+      <div class="detail-card">
+        <div class="detail-header">
+          <div class="detail-header-top">
+            <span class="badge" id="detailBadge">업데이트</span>
+          </div>
+          <h2 class="detail-title" id="detailTitle">공지사항 제목</h2>
+          <div class="detail-meta">
+            <span id="detailDate">2026.10.05</span>
+            <span>·</span>
+            <span>작성자: 루틴톡 팀</span>
+          </div>
+        </div>
+
+        <div class="detail-body" id="detailBody">
+          <!-- Body content injected via JS -->
+        </div>
+
+        <div class="detail-footer">
+          <button class="btn-list-bottom" id="btnListBottom">목록으로</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (100% Unified) -->
+  <footer class="footer-wrap">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-brand-title">루틴톡 (RoutineTalk)</div>
+        <div class="footer-biz-info">
+          <span>상호: 누크랩스(Nook Labs)</span><span class="sep">|</span>
+          <span>대표자: 이상준</span><span class="sep">|</span>
+          <span>사업자등록번호: 638-10-03306</span><br />
+          <span>통신판매업신고번호: 제 2026-경기의왕-0391 호</span><span class="sep">|</span>
+          <span>주소: 경기도 의왕시 오전천로 54, 105동 2001호</span><br />
+          <span>문의: <a href="mailto:nooklabs.official@gmail.com">nooklabs.official@gmail.com</a></span>
+        </div>
+        <div class="footer-copyright">
+          © 2026 Nook Labs. All rights reserved.
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">서비스 소개</a>
+        <a href="notice.html">공지사항</a>
+        <a href="support.html">고객지원</a>
+        <a href="terms.html">이용약관</a>
+        <a href="privacy.html">개인정보처리방침</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Real Production Release Notes
+    const notices = [{"id": 1, "cat": "update", "badge": "업데이트", "badgeClass": "badge-update", "title": "v2.1.0 태블릿 최적화 및 통합 검색, 공휴일 표시 업데이트", "date": "2026.10.05", "content": "\n          <p>안녕하세요, 루틴톡 팀입니다.</p>\n          <p>루틴톡 <strong>v2.1.0</strong> 업데이트를 통해 더욱 넓고 편리한 화면에서 루틴을 관리하실 수 있도록 다양한 기능이 추가되었습니다.</p>\n          \n          <h3>[새로운 기능]</h3>\n          <ul>\n            <li><strong>태블릿 최적화</strong>: 태블릿 기기의 가로 모드와 넓은 화면에 맞춘 전용 반응형 UI를 완벽 지원합니다.</li>\n            <li><strong>공휴일 표시</strong>: 달력과 홈 위젯에서 공휴일(대체공휴일 포함)을 한눈에 확인하고 일정을 조율할 수 있습니다.</li>\n            <li><strong>통합 검색</strong>: 루틴명뿐만 아니라 대화 내용, 메모까지 키워드 하나로 빠르게 검색할 수 있습니다.</li>\n            <li><strong>말풍선 이동</strong>: 기록했던 대화 내용을 다른 루틴이나 메인 대화방으로 손쉽게 옮길 수 있습니다.</li>\n          </ul>\n\n          <h3>[개선 사항]</h3>\n          <ul>\n            <li>사진과 글 동시 전송 지원 및 사진 뷰어에서 아래로 쓸어내려 닫기 제스처 추가</li>\n            <li>채팅 입력창 편의성 개선 및 전반적인 앱 구동 안정성 향상</li>\n          </ul>\n\n          <div class=\"detail-callout\">\n            💡 구글 플레이스토어에서 최신 버전(v2.1.0)으로 업데이트하여 새로운 기능들을 바로 만나보세요!\n          </div>\n        "}, {"id": 2, "cat": "update", "badge": "업데이트", "badgeClass": "badge-update", "title": "v2.0.3 홈 화면 위젯 및 알림 설정 사용성 개선", "date": "2026.09.22", "content": "\n          <p>안녕하세요, 루틴톡 팀입니다.</p>\n          <p>루틴톡 <strong>v2.0.3</strong> 소규모 안정화 및 편의성 개선 업데이트가 배포되었습니다.</p>\n\n          <h3>[2.0.3 업데이트 내역]</h3>\n          <ul>\n            <li><strong>홈 화면 위젯 안정화</strong>: 위젯 갱신 주기 및 터치 반응 속도를 개선하여 바탕화면에서 루틴을 즉시 체크할 수 있습니다.</li>\n            <li><strong>알림 설정 사용성 개선</strong>: 루틴별 리마인더 알림이 더욱 정확한 시간에 울리도록 최적화했습니다.</li>\n            <li>기타 자잘한 버그 수정 및 앱 안정성 강화 작업이 완료되었습니다.</li>\n          </ul>\n        "}, {"id": 3, "cat": "update", "badge": "업데이트", "badgeClass": "badge-update", "title": "v2.0.0 루틴톡 2.0 대규모 업데이트 (클라우드 동기화 & 메모 탭)", "date": "2026.09.08", "content": "\n          <p>안녕하세요! 루틴톡이 <strong>2.0 버전</strong>으로 완전히 새로워졌습니다. 🚀</p>\n          <p>사용자 여러분의 소중한 피드백을 모아 더 스마트하고 편리한 루틴 파트너로 거듭났습니다.</p>\n\n          <h3>[새로운 기능]</h3>\n          <ul>\n            <li><strong>☁️ 클라우드 실시간 자동 동기화</strong>: 기기를 변경하거나 앱을 재설치해도 언제 어디서나 데이터를 안전하게 불러옵니다.</li>\n            <li><strong>💬 새로운 '메모' 탭 추가</strong>: 일상의 사소한 생각, 영감, 또는 단발성 할 일을 자유롭게 적어보세요.</li>\n            <li><strong>📸 루틴 카드 공유</strong>: 내가 실천한 뿌듯한 루틴 기록을 예쁜 이미지 카드로 뽑아 인스타그램이나 SNS로 공유할 수 있습니다.</li>\n            <li><strong>📋 루틴 & 할 일 커스텀 강화</strong>: 구분선과 태그 기능으로 복잡했던 일과 목록을 취향에 맞게 깔끔히 정리해보세요.</li>\n          </ul>\n\n          <h3>[사용성 개선]</h3>\n          <ul>\n            <li>홈 화면 위젯을 더 편리하고 안정적으로 다듬었습니다.</li>\n            <li>터치 반응 속도를 높이고 자잘한 오류들을 깔끔하게 해결했습니다.</li>\n          </ul>\n\n          <div class=\"detail-callout\">\n            기록하다 보면, 어느새 진짜 J가 되어있을지도 몰라요! 앞으로도 더 편리하고 기분 좋은 루틴 관리를 위해 계속해서 개선해 나갈게요.\n          </div>\n        "}, {"id": 4, "cat": "notice", "badge": "공지", "badgeClass": "badge-notice", "title": "루틴톡 첫 번째 버전(v1.0.4) 공식 출시 안내", "date": "2026.08.10", "content": "\n          <p>안녕하세요, 누크랩스(Nook Labs)입니다.</p>\n          <p>J처럼 살고 싶은 P 여러분을 위한 대화형 데일리 타임라인 플래너, <strong>루틴톡의 첫 번째 버전</strong>이 드디어 구글 플레이스토어에 정식 출시되었습니다! 🎉</p>\n\n          <h3>[루틴톡의 주요 기능]</h3>\n          <ul>\n            <li><strong>💬 채팅형 루틴 기록</strong>: 루틴마다 친구와 대화하듯 편안하게 사진과 생각을 털어놓는 새로운 기록 방식</li>\n            <li><strong>📋 오늘의 루틴 & 할 일(Todo)</strong>: 시간대별로 정리된 하루 일과를 한눈에 파악하는 직관적인 홈 화면</li>\n            <li><strong>📊 리포트 캘린더</strong>: 매일매일 채워가는 실천 기록으로 한눈에 증명되는 나의 꾸준함</li>\n            <li><strong>💾 구글 드라이브 백업 & 복원</strong>: 소중한 기록 데이터를 구글 드라이브로 손쉽게 보관</li>\n          </ul>\n\n          <p>누군가 짜준 빡빡한 계획 대신, 내가 원하는 나만의 하루 리듬을 만들어갈 수 있도록 루틴톡이 든든한 페이스메이커가 되어드리겠습니다. 많은 관심과 응원 부탁드립니다!</p>\n        "}];
+
+    // DOM Elements
+    const listView = document.getElementById('listView');
+    const detailView = document.getElementById('detailView');
+    const noticeItems = document.getElementById('noticeItems');
+    const filterTabs = document.querySelectorAll('.chip-btn');
+
+    const btnBack = document.getElementById('btnBack');
+    const btnListBottom = document.getElementById('btnListBottom');
+    const detailBadge = document.getElementById('detailBadge');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailDate = document.getElementById('detailDate');
+    const detailBody = document.getElementById('detailBody');
+
+    let currentCategory = 'all';
+
+    // Render List
+    function renderList(cat = 'all') {
+      noticeItems.innerHTML = '';
+      const filtered = cat === 'all' ? notices : notices.filter(n => n.cat === cat);
+
+      if (filtered.length === 0) {
+        noticeItems.innerHTML = '<li style="padding: 40px; text-align: center; color: var(--text-muted); font-size: 14.5px;">해당 카테고리의 공지사항이 없습니다.</li>';
+        return;
+      }
+
+      filtered.forEach(notice => {
+        const li = document.createElement('li');
+        li.className = 'notice-item';
+        li.setAttribute('data-id', notice.id);
+        li.innerHTML = `
+          <div class="notice-item-main">
+            <span class="badge ${notice.badgeClass}">${notice.badge}</span>
+            <span class="notice-item-title">${notice.title}</span>
+          </div>
+          <div class="notice-item-meta">
+            <span>${notice.date}</span>
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        `;
+        li.addEventListener('click', () => {
+          showDetail(notice.id);
+        });
+        noticeItems.appendChild(li);
+      });
+    }
+
+    // Show Detail
+    function showDetail(id, pushHash = true) {
+      const notice = notices.find(n => n.id === Number(id));
+      if (!notice) return;
+
+      detailBadge.className = `badge ${notice.badgeClass}`;
+      detailBadge.textContent = notice.badge;
+      detailTitle.textContent = notice.title;
+      detailDate.textContent = notice.date;
+      detailBody.innerHTML = notice.content;
+
+      listView.style.display = 'none';
+      detailView.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (pushHash) {
+        history.pushState({ noticeId: id }, '', `#post-${id}`);
+      }
+    }
+
+    // Show List
+    function showList(pushHash = true) {
+      detailView.classList.remove('active');
+      listView.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (pushHash) {
+        history.pushState(null, '', window.location.pathname);
+      }
+    }
+
+    // Filter Click
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentCategory = tab.dataset.cat;
+        renderList(currentCategory);
+      });
+    });
+
+    btnBack.addEventListener('click', () => showList());
+    btnListBottom.addEventListener('click', () => showList());
+
+    // Popstate handling (Back/Forward buttons)
+    window.addEventListener('popstate', (e) => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#post-')) {
+        const id = hash.replace('#post-', '');
+        showDetail(id, false);
+      } else {
+        showList(false);
+      }
+    });
+
+    // Initial Load Check
+    renderList('all');
+    const hash = window.location.hash;
+    if (hash.startsWith('#post-')) {
+      const id = hash.replace('#post-', '');
+      showDetail(id, false);
+    }
+  </script>
+</body>
+</html>
