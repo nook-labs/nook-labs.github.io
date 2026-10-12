@@ -68,101 +68,237 @@
         text-decoration: none;
       }
 
-      /* ── 헤더 & 네비게이션 ── */
+      /* ── 상단 네비게이션 (Fixed + 스크롤 시 부드러운 스케일 다운 & 글래스모피즘 - index.html과 동일한 형식) ── */
       .nav-wrap {
-        position: sticky;
+        position: fixed;
         top: 0;
-        z-index: 100;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: transparent;
+        border-bottom: 1px solid transparent;
+        padding: 26px 0;
+        transition: padding 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          background 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-color 0.35s ease,
+          box-shadow 0.35s ease;
+      }
+
+      /* 스크롤 시: 슬림하게 축소 + 반투명 화이트 블러 */
+      .nav-wrap.scrolled {
+        padding: 13px 0;
+        background: rgba(251, 251, 251, 0.88);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        background: rgba(251, 251, 251, 0.88);
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
       }
 
       .nav-container {
-        max-width: 1120px;
+        max-width: 1400px;
         margin: 0 auto;
-        padding: 16px 28px;
+        padding: 0 36px;
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
 
+      /* 로고 + outineTalk */
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 0px;
         font-weight: 800;
-        font-size: 19px;
-        letter-spacing: -0.5px;
-        color: var(--accent-black);
+        font-size: 25px;
+        letter-spacing: -0.6px;
+        color: #101010;
+        transition: font-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
 
       .brand-icon {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
-        object-fit: cover;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        display: block;
+        flex-shrink: 0;
+        user-select: none;
+        margin-right: -3px;
+        transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          height 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          margin-right 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
 
+      /* 스크롤 시 로고 축소 */
+      .nav-wrap.scrolled .brand {
+        font-size: 18px;
+        gap: 0px;
+      }
+
+      .nav-wrap.scrolled .brand-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: -2px;
+      }
+
+      /* 우측 네비게이션 영역 */
+      .nav-right-area {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      /* 소개, 공지사항, 고객지원 버튼들 (클 때 우측 배치) */
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 32px;
-        font-size: 14.5px;
+        gap: 36px;
+        font-size: 18px;
         font-weight: 600;
-        color: var(--text-secondary);
+        transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
 
       .nav-links a {
-        transition: color 0.15s ease;
-      }
-
-      
-      .nav-links a.active {
-        color: var(--accent-black);
-        font-weight: 700;
+        color: #767676;
+        transition: color 0.2s ease;
         position: relative;
       }
-      .nav-links a.active::after {
-        content: '';
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--accent-black);
-        border-radius: 2px;
-      }
-    
-      .nav-links a:hover {
-        color: var(--accent-black);
-      }
 
-      .nav-btn {
-        padding: 9px 20px;
-        background: var(--accent-black);
-        border: 1px solid var(--accent-black);
-        border-radius: var(--radius-full);
-        font-size: 13.5px;
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #101010;
         font-weight: 700;
-        color: #ffffff;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 8px rgba(16, 16, 16, 0.12);
       }
 
-      .nav-btn:hover {
-        background: var(--accent-hover);
+      /* 스크롤되어 줄어들었을 때: 텍스트 링크 숨김 */
+      .nav-wrap.scrolled .nav-links {
+        display: none;
+      }
+
+      /* 스크롤되어 줄어들었을 때 나타나는 미니멀 아이콘 전용 메뉴 버튼 */
+      .nav-menu-btn {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 50%;
+        color: #101010;
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      .nav-menu-btn:hover {
+        background: rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.16);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(16, 16, 16, 0.2);
       }
 
-      /* ── 메인 컨테이너 ── */
+      .nav-menu-btn.active {
+        background: #101010;
+        color: #FFFFFF;
+        border-color: #101010;
+      }
+
+      .menu-bars {
+        width: 16px;
+        height: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .menu-bars .bar {
+        width: 100%;
+        height: 1.8px;
+        background: currentColor;
+        border-radius: 2px;
+        transition: all 0.25s ease;
+      }
+
+      /* 스크롤 시 메뉴 버튼 축소 & 활성화 */
+      .nav-wrap.scrolled .nav-menu-btn {
+        display: inline-flex;
+        width: 32px;
+        height: 32px;
+        animation: fadeInBtn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .nav-wrap.scrolled .menu-bars {
+        width: 13px;
+        height: 8px;
+      }
+
+      @keyframes fadeInBtn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* 메뉴 버튼 클릭 시 열리는 세련된 라이트 드롭다운 메뉴 */
+      .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 36px;
+        min-width: 180px;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 18px;
+        padding: 8px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px) scale(0.96);
+        transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 1005;
+      }
+
+      .nav-dropdown.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+
+      .dropdown-link {
+        padding: 11px 18px;
+        color: #666666;
+        font-size: 14.5px;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .dropdown-link:hover,
+      .dropdown-link.active {
+        color: #101010;
+        background: rgba(0, 0, 0, 0.04);
+        font-weight: 700;
+      }
+
+      /* ── 메인 컨테이너 (Fixed Nav 높이 고려) ── */
       .main-container {
         max-width: 860px;
         margin: 0 auto;
-        padding: 64px 28px 100px 28px;
+        padding: 135px 28px 100px 28px;
         flex: 1;
         width: 100%;
       }
@@ -617,29 +753,83 @@
         text-decoration: underline;
       }
 
-      @media (max-width: 768px) {
-        .page-title { font-size: 28px; }
-        .contact-banner { flex-direction: column; align-items: stretch; text-align: center; }
+      @media (max-width: 900px) {
+        .nav-wrap { padding: 18px 0; }
+        .nav-wrap.scrolled { padding: 12px 0; }
+        .nav-container { padding: 0 20px; }
+        .nav-links { display: none !important; }
+        .nav-menu-btn { display: inline-flex !important; }
+        .nav-dropdown { right: 20px; }
+        .main-container { padding-top: 100px; }
+        .page-tag { font-size: 12px; }
+        .page-title { font-size: 25px; letter-spacing: -0.8px; }
+        .page-subtitle { font-size: 14px; }
+        .search-input { font-size: 13.5px; }
+        .category-chips {
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          justify-content: flex-start;
+          padding: 4px 0 14px 0;
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: 28px;
+          scrollbar-width: none;
+        }
+        .category-chips::-webkit-scrollbar {
+          display: none;
+        }
+        .category-chips .chip-btn {
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+        .contact-banner { flex-direction: column; align-items: stretch; text-align: center; padding: 22px 20px; }
         .contact-action-wrap { flex-direction: column; align-items: stretch; }
-        .accordion-header { padding: 18px 20px; }
-        .accordion-title-group { flex-direction: column; align-items: flex-start; gap: 6px; }
+        .contact-text h3 { font-size: 16px; }
+        .contact-text p { font-size: 13px; }
+        .faq-section-title { font-size: 16px; }
+        .accordion-header { padding: 16px 18px; }
+        .accordion-title { font-size: 14.5px; }
+        .accordion-inner { font-size: 14px; }
+        .footer-brand-title { font-size: 15px; }
+        .footer-biz-info { font-size: 13px; line-height: 1.75; }
+        .footer-copyright { font-size: 13px; }
+        .footer-links { font-size: 13px; }
       }
     </style>
   </head>
   <body>
-    <!-- 상단 네비게이션 -->
-    <nav class="nav-wrap">
+    <!-- 상단 네비게이션 (100% Unified with index.html - Light Mode) -->
+    <nav class="nav-wrap" id="mainNav">
       <div class="nav-container">
         <a href="index.html" class="brand">
-          <img src="app_icon.png" alt="루틴톡 로고" class="brand-icon" />
-          <span>루틴톡</span>
+          <img src="routintalk-icon-homepage-light.png" alt="루틴톡 로고" class="brand-icon" />
+          <span>outineTalk</span>
         </a>
-        <div class="nav-links">
-          <a href="index.html">소개</a>
-          <a href="notice.html">공지사항</a>
-          <a href="support.html" class='active'>고객지원</a>
+
+        <!-- 우측 영역: 클 때는 텍스트 메뉴, 스크롤되어 줄어들었을 때는 메뉴 버튼 -->
+        <div class="nav-right-area">
+          <div class="nav-links">
+            <a href="index.html">소개</a>
+            <a href="notice.html">공지사항</a>
+            <a href="support.html" class="active">고객지원</a>
+          </div>
+
+          <!-- 스크롤 시 우측에 나타나는 미니멀 아이콘 메뉴 버튼 -->
+          <button class="nav-menu-btn" id="navMenuBtn" onclick="toggleNavMenu(event)" aria-label="메뉴 열기">
+            <span class="menu-bars">
+              <span class="bar"></span>
+              <span class="bar"></span>
+            </span>
+          </button>
         </div>
-        <a href="https://play.google.com/store/apps/details?id=com.nooklabs.routinetalk" target="_blank" rel="noopener noreferrer" class="nav-btn">앱 다운로드</a>
+      </div>
+
+      <!-- 메뉴 버튼 클릭 시 부드럽게 열리는 라이트 글래스 드롭다운 -->
+      <div class="nav-dropdown" id="navDropdown">
+        <a href="index.html" class="dropdown-link" onclick="closeNavMenu()">소개</a>
+        <a href="notice.html" class="dropdown-link" onclick="closeNavMenu()">공지사항</a>
+        <a href="support.html" class="dropdown-link active" onclick="closeNavMenu()">고객지원</a>
       </div>
     </nav>
 
@@ -839,19 +1029,17 @@
     <footer class="footer-wrap">
       <div class="footer-container">
         <div class="footer-left">
-          <div class="footer-brand-title">누크랩스 (Nook Labs) · 루틴톡</div>
+          <div class="footer-brand-title">누크랩스 (Nook Labs)</div>
           <div class="footer-biz-info">
-            <span>상호명: 누크랩스(Nook Labs)</span>
+            <span>대표자 이상준</span>
             <span class="sep">|</span>
-            <span>대표자: 이상준</span>
-            <span class="sep">|</span>
-            <span>사업자등록번호: 638-10-03306</span>
+            <span>사업자등록번호 638-10-03306</span>
             <br />
-            <span>통신판매업신고번호: 제 2026-경기의왕-0391 호</span>
+            <span>경기도 의왕시 오전천로 54</span>
             <span class="sep">|</span>
-            <span>사업장 소재지: 경기도 의왕시 오전천로 54, 105동 2001호(오전동, 민들레베스파트)</span>
+            <span>통신판매업 제 2026-경기의왕-0391 호</span>
             <br />
-            <span>고객지원 및 제휴 문의: <a href="mailto:nooklabs.official@gmail.com">nooklabs.official@gmail.com</a></span>
+            <span>고객지원 <a href="mailto:nooklabs.official@gmail.com">nooklabs.official@gmail.com</a></span>
           </div>
           <div class="footer-copyright">
             © 2026 Nook Labs. All rights reserved.
@@ -954,6 +1142,50 @@
           currentCategory = btn.getAttribute("data-category");
           filterFaq();
         });
+      });
+
+      // ── 상단 네비게이션 스크롤 전환 및 메뉴 버튼 토글 ──
+      const mainNav = document.getElementById("mainNav");
+      function handleScrollNav() {
+        if (!mainNav) return;
+        if (window.scrollY > 30) {
+          mainNav.classList.add("scrolled");
+        } else {
+          mainNav.classList.remove("scrolled");
+        }
+        closeNavMenu();
+      }
+      window.addEventListener("scroll", handleScrollNav, { passive: true });
+      handleScrollNav();
+
+      function toggleNavMenu(e) {
+        if (e) e.stopPropagation();
+        const dropdown = document.getElementById("navDropdown");
+        const btn = document.getElementById("navMenuBtn");
+        if (!dropdown) return;
+
+        const isOpen = dropdown.classList.contains("open");
+        if (isOpen) {
+          closeNavMenu();
+        } else {
+          dropdown.classList.add("open");
+          if (btn) btn.classList.add("active");
+        }
+      }
+
+      function closeNavMenu() {
+        const dropdown = document.getElementById("navDropdown");
+        const btn = document.getElementById("navMenuBtn");
+        if (dropdown) dropdown.classList.remove("open");
+        if (btn) btn.classList.remove("active");
+      }
+
+      document.addEventListener("click", (e) => {
+        const dropdown = document.getElementById("navDropdown");
+        const btn = document.getElementById("navMenuBtn");
+        if (dropdown && !dropdown.contains(e.target) && btn && !btn.contains(e.target)) {
+          closeNavMenu();
+        }
       });
     </script>
   </body>
