@@ -94,9 +94,9 @@
 
     /* 로고와 다운로드 버튼 좌우 여백을 줄이기 위해 컨테이너 폭 확장 */
     .nav-container {
-      max-width: 1400px;
+      max-width: 1760px;
       margin: 0 auto;
-      padding: 0 36px;
+      padding: 0 clamp(36px, 3.5vw, 64px);
       /* 좌우 여백을 적절히 줄여 화면 끝 쪽으로 넓힘 */
       display: flex;
       align-items: center;
@@ -543,6 +543,194 @@
     .hero-screens-wrap::after {
       right: 0;
       background: linear-gradient(to left, #0B0B0E 0%, rgba(11, 11, 14, 0.85) 35%, transparent 100%);
+    }
+
+    /* ── 폰 뒤 은은한 무대 조명 (천천히 숨 쉬듯 밝아졌다 어두워짐) ── */
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 980px;
+      height: 620px;
+      transform: translate(-50%, -50%);
+      background:
+        radial-gradient(ellipse 38% 42% at 50% 46%, rgba(255, 255, 255, 0.16) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: 0;
+      pointer-events: none;
+      animation: heroGlowBreath 7s ease-in-out infinite;
+    }
+
+    @keyframes heroGlowBreath {
+
+      0%,
+      100% {
+        opacity: 0.75;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.06);
+      }
+    }
+
+    /* ── 헤드라인 양옆을 둥둥 떠다니는 채팅 말풍선 칩 ── */
+    .hero-chips {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .hero-chip {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #F4F4FA;
+      white-space: nowrap;
+      background: rgba(30, 30, 40, 0.55);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      opacity: 0;
+      animation:
+        heroChipIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) both,
+        heroChipFloat 6s ease-in-out infinite;
+    }
+
+    .hero-chip-emoji {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* 말풍선 꼬리 방향 (왼쪽 칩은 오른쪽 아래, 오른쪽 칩은 왼쪽 아래 모서리를 뾰족하게) */
+    .hero-chip.chip-left {
+      border-radius: 20px 20px 4px 20px;
+    }
+
+    .hero-chip.chip-right {
+      border-radius: 20px 20px 20px 4px;
+    }
+
+    .hero-chip.chip-1 {
+      top: 200px;
+      right: calc(50% + 390px);
+      animation-delay: 0.7s, 0.7s;
+    }
+
+    .hero-chip.chip-2 {
+      top: 245px;
+      left: calc(50% + 400px);
+      animation-delay: 0.9s, 2.2s;
+    }
+
+    .hero-chip.chip-3 {
+      top: 370px;
+      right: calc(50% + 430px);
+      animation-delay: 1.1s, 1.5s;
+    }
+
+    .hero-chip.chip-4 {
+      top: 415px;
+      left: calc(50% + 370px);
+      animation-delay: 1.3s, 2.9s;
+    }
+
+    /* 대각선 2개(오른쪽 위, 왼쪽 아래)는 흐리고 작게 뒤로 물려 원근감 */
+    .hero-chip.chip-2,
+    .hero-chip.chip-3 {
+      scale: 0.88;
+      filter: blur(0.6px);
+      animation-name: heroChipInDim, heroChipFloat;
+    }
+
+    @keyframes heroChipInDim {
+      from {
+        opacity: 0;
+        translate: 0 18px;
+      }
+
+      to {
+        opacity: 0.38;
+        translate: 0 0;
+      }
+    }
+
+    /* 왼쪽 위·오른쪽 아래 칩은 흐린 칩보다 조금 더 선명한 중간 투명도 */
+    .hero-chip.chip-1,
+    .hero-chip.chip-4 {
+      animation-name: heroChipInMid, heroChipFloat;
+    }
+
+    @keyframes heroChipInMid {
+      from {
+        opacity: 0;
+        translate: 0 18px;
+      }
+
+      to {
+        opacity: 0.65;
+        translate: 0 0;
+      }
+    }
+
+    /* 칩이 텍스트에 닿을 만큼 화면이 좁으면 숨김 */
+    @media (max-width: 1240px) {
+      .hero-chips {
+        display: none;
+      }
+    }
+
+    @keyframes heroChipIn {
+      from {
+        opacity: 0;
+        translate: 0 18px;
+        scale: 0.92;
+      }
+
+      to {
+        opacity: 0.75;
+        translate: 0 0;
+        scale: 1;
+      }
+    }
+
+    @keyframes heroChipFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .hero-glow,
+      .hero-chip {
+        animation: none;
+        opacity: 0.75;
+      }
+
+      .hero-chip.chip-2,
+      .hero-chip.chip-3 {
+        opacity: 0.38;
+      }
+
+      .hero-chip.chip-1,
+      .hero-chip.chip-4 {
+        opacity: 0.65;
+      }
     }
 
     .hero-screens-track {
@@ -1474,6 +1662,10 @@
       padding: 95px 0 145px 0;
     }
 
+    .story-block.bg-dark-gray.intro-chat-section {
+      background-color: #25252F;
+    }
+
     .intro-chat-container {
       max-width: 860px;
       margin: 0 auto;
@@ -1615,6 +1807,49 @@
     }
 
     .intro-chat-section.scroll-reveal.is-visible .chat-row.chat-left {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .chat-middle-text {
+      margin: 88px 0 64px;
+      font-size: 23px;
+      font-weight: 500;
+      line-height: 1.6;
+      letter-spacing: -0.4px;
+      color: #E4E4EE;
+      text-align: center;
+      word-break: keep-all;
+      position: relative;
+      isolation: isolate;
+      /* 겹겹이 쌓은 검정 그림자 (가까운 선명한 그림자 + 넓게 번지는 그림자) */
+      text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.6),
+        0 4px 12px rgba(0, 0, 0, 0.45),
+        0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 문장 뒤에 은은하게 깔리는 검정 안개 */
+    .chat-middle-text::before {
+      content: "";
+      position: absolute;
+      inset: -70px 50% -70px auto;
+      width: min(760px, 100%);
+      transform: translateX(50%);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.25) 40%, transparent 70%);
+      filter: blur(24px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .intro-chat-section.scroll-reveal .chat-middle-text {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s,
+        transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s;
+    }
+
+    .intro-chat-section.scroll-reveal.is-visible .chat-middle-text {
       opacity: 1;
       transform: translateY(0);
     }
@@ -2087,6 +2322,12 @@
         height: 425px;
       }
 
+      .hero-glow {
+        width: 560px;
+        height: 460px;
+      }
+
+
       .screen-card {
         width: 198px;
         margin-left: -99px;
@@ -2144,6 +2385,7 @@
       .story-block {
         padding: 85px 0;
       }
+
 
       .story-container {
         padding: 0 20px;
@@ -2355,6 +2597,12 @@
         padding-right: 0;
       }
 
+      .chat-middle-text {
+        margin: 56px 0 40px;
+        font-size: 16.5px;
+        letter-spacing: -0.3px;
+      }
+
       .chat-row.chat-right {
         padding-left: 0;
       }
@@ -2479,6 +2727,14 @@
 
   <!-- ── 풀스크린 다크 히어로 섹션 ── -->
   <section class="hero-dark-fullscreen" id="heroSection">
+    <!-- 헤드라인 양옆 채팅 말풍선 칩 (넓은 화면에서만 표시) -->
+    <div class="hero-chips" aria-hidden="true">
+      <span class="hero-chip chip-left chip-1"><span class="hero-chip-emoji">☀️</span>아침 스트레칭 완료!</span>
+      <span class="hero-chip chip-right chip-2"><span class="hero-chip-emoji">📖</span>오늘 독서 30분 했어요</span>
+      <span class="hero-chip chip-left chip-3"><span class="hero-chip-emoji">💧</span>물 2L 마시기 성공</span>
+      <span class="hero-chip chip-right chip-4"><span class="hero-chip-emoji">🌙</span>오늘 하루도 수고했어</span>
+    </div>
+
     <div class="hero-container">
       <h1 class="hero-headline">
         부담없는 루틴의 시작,<br />
@@ -2504,6 +2760,9 @@
 
     <!-- ── 일렬 스크린 쇼케이스 (파노라마 커브드 3D 롤링 쇼케이스) ── -->
     <div class="hero-screens-wrap" id="heroScreensWrap">
+      <!-- 폰 뒤 은은한 무대 조명 -->
+      <div class="hero-glow" aria-hidden="true"></div>
+
       <div class="hero-screens-track" id="heroScreensTrack">
         <!-- 첫 번째 세트 -->
         <div class="screens-group">
@@ -2581,6 +2840,12 @@
             </div>
           </div>
 
+          <!-- 좌우 버블 사이 중앙 텍스트 -->
+          <p class="chat-middle-text">
+            오늘 하루 열심히 살았는데,<br />
+            하루 끝엔 남는 게 없다고 느껴질 때
+          </p>
+
           <!-- 루틴톡 솔루션 버블 (오른쪽) -->
           <div class="chat-row chat-right">
             <div class="chat-bubbles-group">
@@ -2601,8 +2866,7 @@
         <!-- 말풍선 하단 브릿지 서브 텍스트 (글래스 캡슐 배지형) -->
         <div class="intro-chat-bridge-wrap">
           <p class="intro-chat-bridge">
-            <span><span class="bridge-sparkle">✨</span> 그저 흘러가던 하루에서, <br class="br-mobile" /><b>또렷하게 남는 오늘</b>을
-              채워가요.</span>
+            <span><span class="bridge-sparkle">✨</span> <b>오늘을 그냥 보내기 아쉬운 날, 작은 기록 하나면 충분해요.</b></span>
           </p>
         </div>
       </div>
