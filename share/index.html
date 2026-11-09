@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>루틴톡 앱에서 보기</title>
+  <meta name="description" content="공유받은 게시글을 루틴톡에서 확인해보세요.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="루틴톡">
+  <meta property="og:title" content="루틴톡 앱에서 보기">
+  <meta property="og:description" content="공유받은 게시글을 루틴톡에서 확인해보세요.">
+  <style>
+    body { margin:0; padding:24px; min-height:90vh; display:grid; place-items:center; background:#f5f6fa; color:#20232b; font-family:system-ui,sans-serif; }
+    main { width:min(100%,400px); text-align:center; }
+    p { line-height:1.7; color:#606674; }
+    a { display:block; margin:12px 0; padding:16px; border-radius:16px; background:#6558e8; color:white; text-decoration:none; font-weight:600; }
+    a.secondary { background:white; color:#5145bc; }
+    [hidden] { display:none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>루틴톡 앱에서 보기</h1>
+    <p id="message">공유받은 게시글을 루틴톡에서 확인해보세요.</p>
+    <a id="open" hidden>루틴톡에서 열기</a>
+    <a id="android" class="secondary" href="https://play.google.com/store/apps/details?id=com.nooklabs.routinetalk">Google Play에서 설치하기</a>
+    <a id="ios" class="secondary" hidden>App Store에서 설치하기</a>
+  </main>
+  <script src="../share-config.js"></script>
+  <script src="share.js"></script>
+</body>
+</html>

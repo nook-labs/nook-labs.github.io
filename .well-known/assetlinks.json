@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nooklabs.routinetalk",
+      "sha256_cert_fingerprints": [
+        "81:A7:A2:FF:F4:EE:97:B7:23:D1:13:58:56:38:E4:23:99:26:6B:80:75:62:03:16:CB:3C:6A:1C:73:83:6E:24"
+      ]
+    }
+  }
+]

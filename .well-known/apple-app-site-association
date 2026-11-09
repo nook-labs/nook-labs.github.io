@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["NZ5X9326DC.com.nooklabs.routinetalk"],
+        "components": [{"/": "/share/", "?": {"post": "*"}}, {"/": "/share", "?": {"post": "*"}}]
+      }
+    ]
+  }
+}
